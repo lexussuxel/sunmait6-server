@@ -23,14 +23,14 @@ let contactsMock1 = [
     birthDay: Date.parse("2002-06-14"),
   },
 ];
-//{firstName="", lastName="", phone="", work="", country="", tags=[], birthDay=new Date()}
+
 let contactSchema = object({
   id: number().required(),
   firstName: string().required().min(3),
   lastName: string(),
   phone: number().max(9999999).required().min(100000),
-  work: string(),
-  birthDay: date(),
+  work: string().nullable(),
+  birthDay: date().nullable(),
   country: string().required(),
   tags: array().of(string()),
 });
@@ -80,7 +80,6 @@ class ContactsController {
       const validation = await contactSchema.validate(newContact);
       if (contact !== -1) {
         let obj = {};
-        console.log(this.contacts[contact]);
         for (const [key, value] of Object.entries(this.contacts[contact])) {
           if (value !== reqBody[key]) {
             obj[key] = reqBody[key];
@@ -94,7 +93,8 @@ class ContactsController {
       }
     } catch (e) {
       console.log(e);
-      return res.status(400).send(e);
+      console.log("aseferer");
+      res.status(400).json(e);
     }
   }
 }
