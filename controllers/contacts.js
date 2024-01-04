@@ -93,7 +93,6 @@ class ContactsController {
       }
     } catch (e) {
       console.log(e);
-      console.log("aseferer");
       res.status(400).json(e);
     }
   }
